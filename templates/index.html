@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Random Quote Generator</title><link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"></head>
+<body><main class="shell"><header class="topbar"><a class="brand" href="/">CodeAlpha <span>Daily Notes</span></a><a class="quiet-link" href="{{ url_for('favorites_page') }}">♡ Favorites</a></header>
+  <section class="intro"><p class="eyebrow">TASK 02 · A MOMENT OF INSPIRATION</p><h1>Random Quote Generator</h1><p>A small collection of original reminders for your day.</p></section>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<p class="notice {{ category }}">{{ message }}</p>{% endfor %}{% endwith %}
+  {% if quote %}<section class="quote-card"><span class="quote-mark">“</span><blockquote id="quote-text">{{ quote.text }}</blockquote><p class="author">{{ quote.author }}</p><div class="actions"><a class="button primary" href="{{ url_for('new_quote') }}">New quote <span aria-hidden="true">↗</span></a><form method="post" action="{{ url_for('toggle_favorite', quote_id=quote.id) }}"><button class="button secondary" type="submit">{{ '♥ Saved' if quote.id in favorites else '♡ Save' }}</button></form><button class="button outline" id="copy-button" type="button" data-quote="{{ quote.text }} — {{ quote.author }}">Copy</button></div><p class="copy-status" id="copy-status" aria-live="polite"></p></section>{% else %}<section class="quote-card"><p>No quotes are available.</p></section>{% endif %}
+  <p class="footnote">Your favorite quotes stay saved on this device.</p>
+</main><script src="{{ url_for('static', filename='app.js') }}"></script></body></html>
